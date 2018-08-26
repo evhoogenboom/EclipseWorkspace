@@ -1,13 +1,16 @@
 
 public class Card {
 	String suit;
-	Value value;
+	String type;
+	int points;
+	
 	
 	public Card(String suit, String type, int points){
 		this.suit = suit;
-		value = new Value(type, points);
+		this.type = type;
+		this.points = points;
 	}
 	
 	
 } 
- 
+  

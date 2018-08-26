@@ -1,30 +1,32 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 public class Deck {
 
-	ArrayList<Card> deck;
-	
+	Card[] deck;
 	 
-	
 	Deck() {
-		makeDeck();
-	} 
-	
-	public void makeDeck() {
-		deck = new ArrayList<Card>();
-		for (int i=0; i < 52; i++) {
-			String suit = "Schoppen";
-			int points = 6;
-			String type = "9";
-			deck.add(new Card(suit, type, points));
-			Collections.shuffle(deck);
+		deck = new Card[52];
+		String[] suits = {"H","S","R","K"};
+		String[] types = {"Boer", "Vrouw", "Koning", "Aas"};
+		int addition = 0;
+		for (String suit : suits) {
+			int index = 0;
+			for (int i=0, j=2; i<13; i++, j++) {
+				int points;
+				String type;
+				if (i<9) {
+					points = j;
+					type = Integer.toString(j);
+				} else {
+					points = 10;
+					type = types[index++];
+					if (type.equals("Aas")) {
+						points = 11;  // beetje lelijk maar ik had geen tijd meer
+					}
+				}
+				Card card = new Card(suit,type,points);
+				deck[i+addition] = card;
+			}
+			addition += 13;
 		}
-	}
-	
-	
-	
-	
-
+	} 
 }

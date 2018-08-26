@@ -1,8 +1,4 @@
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.Collections;
+
 
 public class home {
 	
@@ -15,7 +11,7 @@ public class home {
 		}
 		System.out.println("The game has ended.");
 		
-	}
+	} 
 	
 	 
 }  

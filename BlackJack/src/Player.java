@@ -5,6 +5,8 @@ public class Player {
 	int handPoints;
 	ArrayList<Card> handCards = new ArrayList(); // waarom moet "new arraylist"? kreeg anders nullpointer exception bij functie game.initialDraw
 	boolean bank;
+	boolean hasAce;
+
 	
 	
 	Player() {}
@@ -17,6 +19,9 @@ public class Player {
 	
 	 
 	void updateHand(Card card) {
+		if (card.type.equals("Aas")) {
+			hasAce = true;
+		}
 		handCards.add(card);
 		handPoints = calcHandPoints();
 		printHand();
@@ -26,7 +31,10 @@ public class Player {
 	private int calcHandPoints() {
 		int handPoints = 0;
 		for (Card card : handCards) {
-			handPoints += card.value.points;
+			handPoints += card.points;
+		}
+		if (hasAce && handPoints > 21) {
+			handPoints -= 10;
 		}
 		return handPoints;
 	}
@@ -39,7 +47,7 @@ public class Player {
 			if (bank && i==0) {
 				System.out.print("--" + "  " );
 			} else {
-				System.out.print(handCards.get(i).suit + "  " + handCards.get(i).value.type + " ");
+				System.out.print(handCards.get(i).suit + " " + handCards.get(i).type + "  ");
 			}
 		}
 		System.out.println();
@@ -49,7 +57,7 @@ public class Player {
 	public void printPoints() {
 		System.out.println("Points: " + handPoints);
 	}
-	
+	 
 }
 
 

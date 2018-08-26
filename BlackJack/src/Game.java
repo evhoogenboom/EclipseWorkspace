@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Game {
@@ -6,11 +8,10 @@ public class Game {
 	Scanner sc = new Scanner(System.in);
 	Deck deck = new Deck(); // wordt deze elke keer aangemaakt als playGame wordt aangeroepen?
 	// wat kan ik doen dat dit niet gebeurt?
-	ArrayList<Card> gameDeck = new ArrayList<Card>();
+	ArrayList<Card> gameDeck;
 	Player player = new Player();
 	Player bank = new Player("bank");
 	boolean play = true;
-	
 	
 	 
 	public void playGame() {
@@ -31,18 +32,24 @@ public class Game {
 
 	
 	public void setup() {
-		gameDeck = deck.deck; // als ik deze verander, verandert deck.deck dan ook? ja
+		gameDeck = new ArrayList<Card>(Arrays.asList(deck.deck));
+		Collections.shuffle(gameDeck);
 		printCards(gameDeck);
+		
 		player.handCards.clear();
-		bank.handCards.clear();
 		player.handPoints = 0;
+		player.hasAce = false;
+		
+		bank.handCards.clear();
 		bank.handPoints = 0;
+		bank.hasAce = false;
+		
 	}
 	
 	
 	public void printCards(ArrayList<Card> arrayList) {
 		for (Card card : arrayList) {
-			System.out.print(card.suit + " " + card.value.type + "  ");
+			System.out.print(card.suit + " " + card.type + "  ");
 		}
 		System.out.println();
 	}
@@ -73,21 +80,7 @@ public class Game {
 		return !move.equals("k") && !move.equals("p") && !move.equals("q");
 	}
 	 
-/*
-	public void drawCard(Player player) {
-		Card card = gameDeck.get(0);
-		gameDeck.remove(0);
-		player.handCards.add(card);   // dit werkt niet zeker? Kan ik player.handCards aanspreken vanuit deze class op een andere manier?
-	}
-	
-*/
-	/*
-		public void hit() {
-			player.updateHand(drawCard());
-			System.out.println(gameDeck.size());
-		}
-		*/
-		
+
 		public Card drawCard() {
 			Card card = gameDeck.get(0);
 			gameDeck.remove(0);
