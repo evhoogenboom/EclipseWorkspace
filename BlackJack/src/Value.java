@@ -12,3 +12,4 @@ public class Value {
 
 // voorbeeld: een 5 heeft type cijfer en points 5
 // een boer heeft type plaatje en points 10
+  

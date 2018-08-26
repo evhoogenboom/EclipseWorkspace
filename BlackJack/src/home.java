@@ -6,37 +6,16 @@ import java.util.Collections;
 
 public class home {
 	
-
-	
 	public static void main(String[] args) {
 		home hhome = new home();
 		Game game = new Game(); 
 		
-		boolean continuePlaying = true;
-		
-		while (continuePlaying) {
+		while (game.play) {
 			game.playGame();
-			continuePlaying = hhome.askContinue();
 		}
-		 
+		System.out.println("The game has ended.");
 		
 	}
 	
-	
-	public boolean askContinue() {
-		return false;
-	}
-	
-	public void play(ArrayList<Card> deck) {
-		
-		
-	
-	}
-	
-	
-
-	
-	
-	
-	
+	 
 }  

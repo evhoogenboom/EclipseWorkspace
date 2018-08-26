@@ -5,25 +5,40 @@ public class Game {
 
 	Scanner sc = new Scanner(System.in);
 	Deck deck = new Deck(); // wordt deze elke keer aangemaakt als playGame wordt aangeroepen?
+	// wat kan ik doen dat dit niet gebeurt?
 	ArrayList<Card> gameDeck = new ArrayList<Card>();
 	Player player = new Player();
 	Player bank = new Player("bank");
-	boolean playAgain = true;
+	boolean play = true;
 	
 	
-	
+	 
 	public void playGame() {
-		gameDeck = deck.deck; // als ik deze verander, verandert deck.deck dan ook? ja
-		printCards(gameDeck);
+		setup();
 		initialDraw();
-		boolean oneMoreCard = makeMove();
-		while (oneMoreCard) {
-			hit();
-			oneMoreCard = makeMove();
+		while (player.handPoints < 21 && hit()) {
+			player.updateHand(drawCard());
+			player.printPoints();
 		}
-		
+		while (play && bank.handPoints <= 16) {
+			bank.updateHand(drawCard());
+		}
+		if (play) {
+			printWinner();
+			askPlayAgain();
+		}
 	}
 
+	
+	public void setup() {
+		gameDeck = deck.deck; // als ik deze verander, verandert deck.deck dan ook? ja
+		printCards(gameDeck);
+		player.handCards.clear();
+		bank.handCards.clear();
+		player.handPoints = 0;
+		bank.handPoints = 0;
+	}
+	
 	
 	public void printCards(ArrayList<Card> arrayList) {
 		for (Card card : arrayList) {
@@ -33,66 +48,31 @@ public class Game {
 	}
 	
 	
-	public void printBankCards(ArrayList<Card> arrayList) {
-		for (int i=0;i<arrayList.size();i++) {
-			if (i==0) {
-				System.out.print("--" + "  " );
-			} else {
-				System.out.print(arrayList.get(i).suit + "  " + arrayList.get(i).value.type + " ");
-			}
-			
-		}
-	}
-	
-	
 	public void initialDraw() {
-		//player.handCards.add(drawCard());
-		
 		player.updateHand(drawCard());
 		bank.updateHand(drawCard());
 		player.updateHand(drawCard());
 		bank.updateHand(drawCard());
-		
-		printCards(player.handCards);
-		printBankCards(bank.handCards);
-		
-		System.out.println(player.handPoints);
-		
-	}
-	
-	
-	public boolean makeMove() {
-		String move = getPlayersMove();
-		while (!move.equals("k") && !move.equals("p") && !move.equals("q")) {
-			move = getPlayersMove();
-		}
-		System.out.println("out of while loop");
-		boolean proceed = true;
-		switch(move) {
-		case "k":
-			System.out.println("case k");
-			//boolean proceed = true;  lijkt of deze out of scope gaat na switch statement
-			// waarom niet proceed in statement declareren? kan wel met if-statement toch?
-			break;
-		case "q":
-			playAgain = false;
-			System.out.println("case q");
-			// break expres weggelaten
-		case "p": 
-			proceed = false;  
-			System.out.println("case p");
-			break;
-		}
-		return proceed;
 	}
 	
 	
 	public String getPlayersMove() {
 		System.out.println("What's your next move? (hit \"k\", pass \"p\" or quit \"q\")");
-		return sc.nextLine();
+		String move = sc.nextLine();
+		while (invalidInput(move)) {
+			System.out.println("invalid input");
+			System.out.println("What's your next move? (hit \"k\", pass \"p\" or quit \"q\")");
+			move = sc.nextLine();
+			// getPlayersMove(); waarom print hij nog een keer invalid move voordat hij loop verlaat?
+		}
+		return move;
 	}
 	
 	
+	public boolean invalidInput(String move) {
+		return !move.equals("k") && !move.equals("p") && !move.equals("q");
+	}
+	 
 /*
 	public void drawCard(Player player) {
 		Card card = gameDeck.get(0);
@@ -101,12 +81,12 @@ public class Game {
 	}
 	
 */
-	
+	/*
 		public void hit() {
 			player.updateHand(drawCard());
 			System.out.println(gameDeck.size());
 		}
-		
+		*/
 		
 		public Card drawCard() {
 			Card card = gameDeck.get(0);
@@ -114,5 +94,48 @@ public class Game {
 			return card;
 		}
 	
-	
+		
+		public boolean hit() {
+			boolean hit = true;
+			String move = getPlayersMove();
+			switch(move) {
+			case "k":
+				//boolean hit = true;  lijkt of deze out of scope gaat na switch statement
+				// waarom niet hit in statement declareren? kan wel met if-statement toch?
+				break;
+			case "q":
+				play = false;
+				// break expres weggelaten
+			case "p": 
+				hit = false;  
+				break;
+			}
+			return hit;
+		}
+		
+		
+		public void askPlayAgain() {
+			System.out.println("Play again? (yes or no) ");
+			String answer = sc.nextLine();
+			play = answer.equals("yes") ? true : false;
+		}
+		
+		
+		public void printWinner() {
+			String winner = getWinner();
+			System.out.println("The " + winner + " wins.");
+		}
+		
+		
+		public String getWinner() {
+			String winner; // snap niet waarom dit werkt
+			if (player.handPoints > 21) {
+				winner = "bank";
+			} else if (bank.handPoints <= 21 && bank.handPoints > player.handPoints){
+				winner = "bank";
+			} else {
+				winner = "player";
+			}
+			return winner;
+		}
 }

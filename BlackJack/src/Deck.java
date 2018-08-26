@@ -6,11 +6,11 @@ public class Deck {
 
 	ArrayList<Card> deck;
 	
-	
+	 
 	
 	Deck() {
 		makeDeck();
-	}
+	} 
 	
 	public void makeDeck() {
 		deck = new ArrayList<Card>();
