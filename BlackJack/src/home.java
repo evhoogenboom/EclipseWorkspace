@@ -18,7 +18,7 @@ public class home {
 			game.playGame();
 			continuePlaying = hhome.askContinue();
 		}
-		
+		 
 		
 	}
 	
@@ -29,24 +29,12 @@ public class home {
 	
 	public void play(ArrayList<Card> deck) {
 		
-		drawCards(4);
-		String move = getPlayersMove();
-		System.out.println("you chose: " + move);
+		
+	
 	}
 	
 	
-	public void drawCards(int amount) {
-		for (int i=0; i < amount; i++) {
-			System.out.println(amount);
-		}
-	}
-	
-	
-	public String getPlayersMove() {
-		Scanner sc = new Scanner(System.in);
-		System.out.println("What's your next move? (q, x or y)");
-		return sc.nextLine();
-	}
+
 	
 	
 	

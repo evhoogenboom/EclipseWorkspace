@@ -19,8 +19,9 @@ public class Player {
 		}
 	}
 	
-	
-	void updateHandPoints() {
+	 
+	void updateHand(Card card) {
+		handCards.add(card);
 		handPoints = calcHandPoints();
 	}
 	
